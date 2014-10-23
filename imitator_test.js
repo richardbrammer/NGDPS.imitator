@@ -30,7 +30,7 @@ describe('NGPDS.imitator', function () {
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].productId).toBe('string');
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].title).toBe('string');
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].broker).toBe('string');
-      
+
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].getPreviewImage).toBe('function');
       //expect(typeof adobeDPS.libraryService.folioMap.internal[key].verifyContentPreviewSupported).toBe('function');
       //expect(typeof adobeDPS.libraryService.folioMap.internal[key].updatedSignal).toBe('function');
@@ -46,7 +46,7 @@ describe('NGPDS.imitator', function () {
 
   it('adds function getPreviewImage(), which should attach an image URL to previewImageUrl', function () {
     var folioId;
-    
+
     for (var key in adobeDPS.libraryService.folioMap.internal) {
       folioId = key;
       break;
