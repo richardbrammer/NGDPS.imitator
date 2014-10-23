@@ -8,6 +8,34 @@ adobeDPS.ngdpsImitator = {
   imitate: function (delay) {
     'use strict';
 
+    var getPreviewImage = function(width, height, isPortrait) {
+      var imageUrl = 'http://placehold.it/2048x1536.png',
+        transaction;
+      width = null;
+      height = null;
+      isPortrait = null;
+
+      window.setTimeout((function (that, url) {
+        that.previewImageURL = url;
+      })(this, imageUrl), 1000);
+
+      transaction = {
+        completedSignal: {
+          add: function (callback) {
+            window.setTimeout((function (url, fn) {
+              var transaction = {
+                previewImageURL: url
+              };
+              fn(transaction);
+            })(imageUrl, callback), 1000);
+          }
+        }
+      };
+
+      return transaction;
+
+    };
+
     if (typeof delay === 'undefined') {
       delay = 100;
     }
@@ -16,12 +44,21 @@ adobeDPS.ngdpsImitator = {
     adobeDPS.ngdpsImitator.info = 'This adobeDPS object is extended by ngdps.imitator; Do not trust it! I hope you know, what you are doing?';
 
     window.setTimeout(function () {
+      var guid;
       console.log('NGDPS.imitation initialized after ', delay, 'ms.');
       adobeDPS.initializationComplete.dispatch();
 
-      adobeDPS.libraryService.folioMap.internal['guid-guid-guid'] = {
-        id: 'guid-guid-guid'
-      };
+      for (var i = 0; i < 50; i += 1) {
+        guid = 'id-' + i;
+        adobeDPS.libraryService.folioMap.internal[guid] = {
+          id: guid,
+          productId: 'com.geildanke.' + i,
+          publicationDate: new Date(1414099620000 - (Math.random() * 10000000000)),
+          getPreviewImage: getPreviewImage,
+          title: 'Imitatator Title ' + i,
+          broker: 'appleStore'
+        };
+      }
     }, delay);
   }
 };
@@ -32,7 +69,7 @@ adobeDPS.ngdpsImitator = {
 
   var urlParams;
 
-  function isImitate () {
+  function isImitate() {
     if (typeof urlParams.imitate !== 'undefined') {
       return true;
     } else {
@@ -42,13 +79,15 @@ adobeDPS.ngdpsImitator = {
 
   (function (adobeDPS) {
     var match,
-      pl     = /\+/g,  // Regex for replacing addition symbol with a space
+      pl = /\+/g, // Regex for replacing addition symbol with a space
       search = /([^&=]+)=?([^&]*)/g,
-      decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); },
-      query  = window.location.search.substring(1);
+      decode = function (s) {
+        return decodeURIComponent(s.replace(pl, ' '));
+      },
+      query = window.location.search.substring(1);
 
     urlParams = {};
-    while((match = search.exec(query)) !== null) {
+    while ((match = search.exec(query)) !== null) {
       urlParams[decode(match[1])] = decode(match[2]);
     }
 
