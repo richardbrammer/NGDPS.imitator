@@ -1,4 +1,5 @@
 /* global adobeDPS */
+/* jslint bitwise: true */
 
 if (typeof adobeDPS === 'undefined') {
   throw new Error('AdobeLibraryAPI.js must be installed. Download from www.adobe.com/go/dps-library-store-api');
@@ -8,7 +9,13 @@ adobeDPS.ngdpsImitator = {
   imitate: function (delay) {
     'use strict';
 
-    var getPreviewImage = function(width, height, isPortrait) {
+    var randomizeGuid = function (c) {
+      var r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    };
+
+    var getPreviewImage = function (width, height, isPortrait) {
       var imageUrl = 'http://placehold.it/2048x1536.png',
         transaction;
       width = null;
@@ -49,10 +56,10 @@ adobeDPS.ngdpsImitator = {
       adobeDPS.initializationComplete.dispatch();
 
       for (var i = 0; i < 50; i += 1) {
-        guid = 'id-' + i;
+        guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, randomizeGuid);
         adobeDPS.libraryService.folioMap.internal[guid] = {
           id: guid,
-          productId: 'com.geildanke.' + i,
+          productId: 'com.geildanke.ngdps.imitator.' + i,
           publicationDate: new Date(1414099620000 - (Math.random() * 10000000000)),
           getPreviewImage: getPreviewImage,
           title: 'Imitatator Title ' + i,
