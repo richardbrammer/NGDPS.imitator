@@ -18,6 +18,10 @@ adobeDPS.ngdpsImitator = {
     window.setTimeout(function () {
       console.log('NGDPS.imitation initialized after ', delay, 'ms.');
       adobeDPS.initializationComplete.dispatch();
+
+      adobeDPS.libraryService.folioMap.internal['guid-guid-guid'] = {
+        id: 'guid-guid-guid'
+      };
     }, delay);
   }
 };
