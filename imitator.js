@@ -1,33 +1,32 @@
-/* global adobe DPS */
+/* global adobeDPS */
 
-adobeDPS = (function (adobeDPS) {
-  'use strict';
+if (typeof adobeDPS === 'undefined') {
+  throw new Error('AdobeLibraryAPI.js must be installed. Download from www.adobe.com/go/dps-library-store-api');
+}
 
-  var urlParams;
+adobeDPS.ngdpsImitator = {
+  imitate: function (delay) {
+    'use strict';
 
-  if (typeof adobeDPS === 'undefined') {
-    throw new Error('AdobeLibraryAPI.js must be installed. Download from www.adobe.com/go/dps-library-store-api');
-  }
-
-  function extend (adobeDPS) {
-    var delay = 100;
-
-    if (urlParams.imitate !== '') {
-      delay = parseInt(urlParams.imitate, 10);
+    if (typeof delay === 'undefined') {
+      delay = 100;
     }
 
-    adobeDPS.imitation = {
-      state: true,
-      info: 'This adobeDPS object is extended by ngdps.imitator; Do not trust it! I hope you know, what you are doing?'
-    };
+    adobeDPS.ngdpsImitator.state = true;
+    adobeDPS.ngdpsImitator.info = 'This adobeDPS object is extended by ngdps.imitator; Do not trust it! I hope you know, what you are doing?';
 
     window.setTimeout(function () {
       console.log('NGDPS.imitation initialized after ', delay, 'ms.');
       adobeDPS.initializationComplete.dispatch();
     }, delay);
-
-    return adobeDPS;
   }
+};
+
+/* load with string */
+(function (adobeDPS) {
+  'use strict';
+
+  var urlParams;
 
   function isImitate () {
     if (typeof urlParams.imitate !== 'undefined') {
@@ -37,11 +36,11 @@ adobeDPS = (function (adobeDPS) {
     }
   }
 
-  return (function (adobeDPS) {
+  (function (adobeDPS) {
     var match,
       pl     = /\+/g,  // Regex for replacing addition symbol with a space
       search = /([^&=]+)=?([^&]*)/g,
-      decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+      decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); },
       query  = window.location.search.substring(1);
 
     urlParams = {};
@@ -50,9 +49,7 @@ adobeDPS = (function (adobeDPS) {
     }
 
     if (isImitate()) {
-      return extend(adobeDPS);
-    } else {
-      return adobeDPS;
+      adobeDPS.ngdpsImitator.imitate();
     }
 
   })(adobeDPS);
