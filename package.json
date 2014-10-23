@@ -1,0 +1,9 @@
+{
+  "name": "ngdps.imitator",
+  "version": "0.1.0",
+  "devDependencies": {
+    "karma": "^0.12.24",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
+  }
+}
