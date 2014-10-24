@@ -15,6 +15,7 @@ adobeDPS.ngdpsImitator = {
       return v.toString(16);
     };
 
+
     var getPreviewImage = function (width, height, isPortrait) {
       var imageUrl = 'http://placehold.it/2048x1536.png',
         transaction;
@@ -31,6 +32,7 @@ adobeDPS.ngdpsImitator = {
           add: function (callback) {
             window.setTimeout((function (url, fn) {
               var transaction = {
+                state: 400, // no error
                 previewImageURL: url
               };
               fn(transaction);
@@ -42,6 +44,54 @@ adobeDPS.ngdpsImitator = {
       return transaction;
 
     };
+
+
+    var verifyContentPreviewSupported = function () {
+      var transaction;
+
+      // http://www.adobe.com/devnet-docs/digitalpublishingsuite/DPSViewerSDK-2.32/docs/library/symbols/adobeDPS-FolioContentPreviewState.html
+      this.contentPreviewState = 1;
+
+      window.setTimeout((function (that) {
+        that.contentPreviewState = 3;
+        that.supportsContentPreview = true;
+      })(this), 500);
+
+      transaction = {
+        completedSignal: {
+          add: function (callback) {
+            window.setTimeout((function (fn) {
+              var transaction = {
+                state: 400 // no error
+              };
+              fn(transaction);
+            })(callback), 1000);
+          }
+        }
+      };
+
+      return transaction;
+    };
+
+
+    var canDownloadContentPreview = function () {
+      return true;
+    };
+
+
+    var updatedSignal = {
+      add: function (callback) {
+        window.setInterval((function (fn) {
+          fn();
+        })(callback), 50000 * Math.random());
+      },
+      addOnce: function (callback) {
+        window.setTimeout((function (fn) {
+          fn();
+        })(callback), 50000 * Math.random());
+      }
+    };
+
 
     if (typeof delay !== 'number') {
       delay = parseInt(delay, 10) || 100;
@@ -64,7 +114,12 @@ adobeDPS.ngdpsImitator = {
           publicationDate: new Date(1414099620000 - (Math.random() * 10000000000)),
           getPreviewImage: getPreviewImage,
           title: 'Imitatator Title ' + i,
-          broker: 'appleStore'
+          broker: 'appleStore',
+          canDownloadContentPreview: canDownloadContentPreview,
+          contentPreviewState: 0,
+          updatedSignal: updatedSignal,
+          supportsContentPreview: false,
+          verifyContentPreviewSupported: verifyContentPreviewSupported
         };
       }
     }, delay);

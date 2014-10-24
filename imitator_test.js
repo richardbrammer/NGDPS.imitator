@@ -26,17 +26,20 @@ describe('NGPDS.imitator', function () {
 
     for (var key in adobeDPS.libraryService.folioMap.internal) {
 
+      // primitives
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].id).toBe('string');
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].productId).toBe('string');
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].title).toBe('string');
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].broker).toBe('string');
 
+      // functions
       expect(typeof adobeDPS.libraryService.folioMap.internal[key].getPreviewImage).toBe('function');
-      //expect(typeof adobeDPS.libraryService.folioMap.internal[key].verifyContentPreviewSupported).toBe('function');
-      //expect(typeof adobeDPS.libraryService.folioMap.internal[key].updatedSignal).toBe('function');
+      expect(typeof adobeDPS.libraryService.folioMap.internal[key].verifyContentPreviewSupported).toBe('function');
+      expect(typeof adobeDPS.libraryService.folioMap.internal[key].canDownloadContentPreview).toBe('function');
+      expect(typeof adobeDPS.libraryService.folioMap.internal[key].updatedSignal).toBe('object');
+      expect(typeof adobeDPS.libraryService.folioMap.internal[key].updatedSignal.add).toBe('function');
 
       // date checking
-
       thisDate = adobeDPS.libraryService.folioMap.internal[key].publicationDate;
       expect(thisDate instanceof Date).toBe(true);
       expect(thisDate).not.toBe(lastDate);
@@ -72,6 +75,35 @@ describe('NGPDS.imitator', function () {
       expect(typeof transaction.previewImageURL).toBe('string');
     });
 
+  });
+
+  it('adds a function canDownloadContentPreview to folios, that returns true', function () {
+
+    for (var key in adobeDPS.libraryService.folioMap.internal) {
+      expect(adobeDPS.libraryService.folioMap.internal[key].canDownloadContentPreview()).toBe(true);
+    }
 
   });
+
+  it('adds an attribute updatedSignal to folio, that callbacks functions added via add(), some time later', function () {
+    var folioId;
+
+    for (var key in adobeDPS.libraryService.folioMap.internal) {
+      folioId = key;
+      break;
+    }
+
+    waitsFor(function () {
+      var fired = false;
+      
+      adobeDPS.libraryService.folioMap.internal[folioId].updatedSignal.add(function () {
+        fired = true;
+      });
+
+      return fired;
+    }, 'the callback to be fired.', 10000);
+
+
+  });
+
 });
