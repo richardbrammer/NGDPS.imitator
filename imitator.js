@@ -122,16 +122,39 @@ adobeDPS.ngdpsImitator = {
         guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, _randomizeGuid);
         adobeDPS.libraryService.folioMap.internal[guid] = {
           id: guid,
-          productId: 'com.geildanke.ngdps.imitator.' + i,
-          publicationDate: new Date(1414099620000 - (Math.random() * 10000000000)),
-          getPreviewImage: getPreviewImage,
-          title: 'Imitatator Title ' + i,
+          
+          // primitives
           broker: 'appleStore',
-          canDownloadContentPreview: canDownloadContentPreview,
-          contentPreviewState: 0,
-          updatedSignal: updatedSignal,
+          description: 'Description field.',
+          downloadSize: Math.random() * 100000000,
+          folioDescription: 'Folio description field for #' + i + ' folio.',
+          folioNumber: 'Imitated Folio ' + i,
+          previewImageURL: null,
+          price: '$ 2.99',
+          productId: 'com.geildanke.ngdps.imitator.' + i,
           supportsContentPreview: false,
-          verifyContentPreviewSupported: verifyContentPreviewSupported
+          title: 'Imitator Title ' + i,
+
+          // booleans
+          isArchivable: false,
+          isCompatible: false,
+          isDownloadable: false,
+          isPurchasable: true,
+          isThirdPartyEntitled: false,
+          isUpdatable: false,
+          isViewable: false,
+
+          // date
+          publicationDate: new Date(1414099620000 - (Math.random() * 10000000000)),
+          
+          // methods
+          canDownloadContentPreview: canDownloadContentPreview,
+          getPreviewImage: getPreviewImage,
+          updatedSignal: updatedSignal,
+          verifyContentPreviewSupported: verifyContentPreviewSupported,
+          
+          // states
+          contentPreviewState: 0
         };
       }
     }, delay);

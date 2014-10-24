@@ -4,7 +4,7 @@ describe('NGPDS.imitator', function () {
   'use strict';
 
   it('appends imitator state to adobeDPS.', function () {
-    adobeDPS.ngdpsImitator.imitate();
+    adobeDPS.ngdpsImitator.imitate(10);
     expect(typeof adobeDPS.ngdpsImitator.state).not.toBe('undefined');
   });
 
@@ -22,28 +22,46 @@ describe('NGPDS.imitator', function () {
 
   it('adds folios with proper attributes.', function () {
     var lastDate = new Date(0),
-      thisDate;
+      thisDate,
+      internal = adobeDPS.libraryService.folioMap.internal,
+      folio = {};
 
-    for (var key in adobeDPS.libraryService.folioMap.internal) {
+    for (var key in internal) {
+      folio = internal[key];
 
       // primitives
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].id).toBe('string');
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].productId).toBe('string');
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].title).toBe('string');
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].broker).toBe('string');
+      expect(folio.id).toBe(key);
+      expect(typeof folio.productId).toBe('string');
+      expect(typeof folio.title).toBe('string');
+      expect(typeof folio.broker).toBe('string');
+      expect(typeof folio.price).toBe('string');
+      expect(typeof folio.description).toBe('string');
+      expect(typeof folio.folioDescription).toBe('string');
+      expect(typeof folio.folioNumber).toBe('string');
+      expect(typeof folio.downloadSize).toBe('number');
+      expect(folio.previewImageURL).toBe(null); // when the API starts, this attribute is always null
+
+      // booleans
+      expect(typeof folio.isArchivable).toBe('boolean');
+      expect(typeof folio.isCompatible).toBe('boolean');
+      expect(typeof folio.isDownloadable).toBe('boolean');
+      expect(typeof folio.isPurchasable).toBe('boolean');
+      expect(typeof folio.isThirdPartyEntitled).toBe('boolean');
+      expect(typeof folio.isUpdatable).toBe('boolean');
+      expect(typeof folio.isViewable).toBe('boolean');
 
       // functions
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].getPreviewImage).toBe('function');
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].verifyContentPreviewSupported).toBe('function');
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].canDownloadContentPreview).toBe('function');
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].updatedSignal).toBe('object');
-      expect(typeof adobeDPS.libraryService.folioMap.internal[key].updatedSignal.add).toBe('function');
+      expect(typeof folio.getPreviewImage).toBe('function');
+      expect(typeof folio.verifyContentPreviewSupported).toBe('function');
+      expect(typeof folio.canDownloadContentPreview).toBe('function');
+      expect(typeof folio.updatedSignal).toBe('object');
+      expect(typeof folio.updatedSignal.add).toBe('function');
 
       // date checking
-      thisDate = adobeDPS.libraryService.folioMap.internal[key].publicationDate;
+      thisDate = folio.publicationDate;
       expect(thisDate instanceof Date).toBe(true);
       expect(thisDate).not.toBe(lastDate);
-      lastDate = adobeDPS.libraryService.folioMap.internal[key].publicationDate;
+      lastDate = folio.publicationDate;
     }
   });
 
