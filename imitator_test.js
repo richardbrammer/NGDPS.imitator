@@ -1,4 +1,4 @@
-/* global adobeDPS, beforeEach, browser, describe, expect, it, waitsFor */
+/* global adobeDPS, beforeEach, browser, describe, expect, it, runs, waitsFor */
 
 describe('NGPDS.imitator', function () {
   'use strict';
@@ -48,32 +48,37 @@ describe('NGPDS.imitator', function () {
   });
 
   it('adds function getPreviewImage(), which should attach an image URL to previewImageUrl', function () {
-    var folioId;
+    var folioId,
+      transaction,
+      img = new Image();
 
     for (var key in adobeDPS.libraryService.folioMap.internal) {
       folioId = key;
       break;
     }
 
-    adobeDPS.libraryService.folioMap.internal[folioId].getPreviewImage();
+    transaction = adobeDPS.libraryService.folioMap.internal[folioId].getPreviewImage();
+
+    expect(typeof transaction.completedSignal).not.toBe('undefined');
+    expect(typeof transaction.completedSignal.add).toBe('function');
+    expect(typeof transaction.completedSignal.addOnce).toBe('function');
+
+    transaction.completedSignal.add(function (transaction) {
+      expect(typeof transaction.previewImageURL).toBe('string');
+    });
 
     waitsFor(function () {
       return (typeof adobeDPS.libraryService.folioMap.internal[folioId].previewImageURL === 'string');
-    }, 'an image URL returned', 2000);
+    }, 'an image URL returned', 1000);
 
-  });
-
-  it('adds function getPreviewImage(), which should return a signal, that on completedSignal fire added callbacks', function () {
-    var folioId;
-
-    for (var key in adobeDPS.libraryService.folioMap.internal) {
-      folioId = key;
-      break;
-    }
-
-    adobeDPS.libraryService.folioMap.internal[folioId].getPreviewImage().completedSignal.add(function (transaction) {
-      expect(typeof transaction.previewImageURL).toBe('string');
+    runs(function () {
+      img.src = adobeDPS.libraryService.folioMap.internal[folioId].previewImageURL;
     });
+
+    waitsFor(function () {
+      return img.complete;
+    }, 'image loading', 1000);
+    
 
   });
 
@@ -95,7 +100,7 @@ describe('NGPDS.imitator', function () {
 
     waitsFor(function () {
       var fired = false;
-      
+
       adobeDPS.libraryService.folioMap.internal[folioId].updatedSignal.add(function () {
         fired = true;
       });

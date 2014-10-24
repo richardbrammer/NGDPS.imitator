@@ -17,11 +17,14 @@ adobeDPS.ngdpsImitator = {
 
 
     var getPreviewImage = function (width, height, isPortrait) {
-      var imageUrl = 'http://placehold.it/2048x1536.png',
+      var imageUrl = 'http://i.imgur.com/kH14hwE.png',
         transaction;
-      width = null;
+      width = null; // width and height are ignored by adobeDPS
       height = null;
-      isPortrait = null;
+
+      if (isPortrait === true) {
+        imageUrl = 'http://i.imgur.com/lcy0ia3.png';
+      }
 
       window.setTimeout((function (that, url) {
         that.previewImageURL = url;
@@ -30,6 +33,15 @@ adobeDPS.ngdpsImitator = {
       transaction = {
         completedSignal: {
           add: function (callback) {
+            window.setTimeout((function (url, fn) {
+              var transaction = {
+                state: 400, // no error
+                previewImageURL: url
+              };
+              fn(transaction);
+            })(imageUrl, callback), 1000);
+          },
+          addOnce: function (callback) {
             window.setTimeout((function (url, fn) {
               var transaction = {
                 state: 400, // no error
@@ -66,7 +78,8 @@ adobeDPS.ngdpsImitator = {
               };
               fn(transaction);
             })(callback), 1000);
-          }
+          },
+          addOnce: this.add
         }
       };
 
@@ -95,11 +108,10 @@ adobeDPS.ngdpsImitator = {
 
     if (typeof delay !== 'number') {
       delay = parseInt(delay, 10) || 100;
-      // delay = 100;
     }
 
     adobeDPS.ngdpsImitator.state = true;
-    adobeDPS.ngdpsImitator.info = 'This adobeDPS object is extended by ngdps.imitator; Do not trust it! I hope you know, what you are doing?';
+    adobeDPS.ngdpsImitator.info = 'This adobeDPS object is extended by ngdps.imitator; This info should never appear in a production environment. More information: https://github.com/richardbrammer/ngdps.imitator';
 
     window.setTimeout(function () {
       var guid;
