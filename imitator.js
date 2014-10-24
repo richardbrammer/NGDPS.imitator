@@ -127,15 +127,18 @@ adobeDPS.ngdpsImitator = {
           broker: 'appleStore',
           description: 'Description field.',
           downloadSize: Math.random() * 100000000,
+          filter: '',
           folioDescription: 'Folio description field for #' + i + ' folio.',
           folioNumber: 'Imitated Folio ' + i,
           previewImageURL: null,
           price: '$ 2.99',
           productId: 'com.geildanke.ngdps.imitator.' + i,
-          supportsContentPreview: false,
+          receipt: null,
+          targetDimensions: '1024x768',
           title: 'Imitator Title ' + i,
 
           // booleans
+          hasSections: false,
           isArchivable: false,
           isCompatible: false,
           isDownloadable: false,
@@ -143,6 +146,18 @@ adobeDPS.ngdpsImitator = {
           isThirdPartyEntitled: false,
           isUpdatable: false,
           isViewable: false,
+          supportsContentPreview: false,
+
+          // objects
+          sections: {
+            addedSignal: {},
+            internal: {},
+            removedSignal: {}
+          },
+          updatedSignal: updatedSignal,
+
+          // arrays
+          currentTransactions: [],
 
           // date
           publicationDate: new Date(1414099620000 - (Math.random() * 10000000000)),
@@ -150,11 +165,11 @@ adobeDPS.ngdpsImitator = {
           // methods
           canDownloadContentPreview: canDownloadContentPreview,
           getPreviewImage: getPreviewImage,
-          updatedSignal: updatedSignal,
           verifyContentPreviewSupported: verifyContentPreviewSupported,
           
           // states
-          contentPreviewState: 0
+          contentPreviewState: 0,
+          state: 100
         };
       }
     }, delay);

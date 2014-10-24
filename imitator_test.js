@@ -28,20 +28,26 @@ describe('NGPDS.imitator', function () {
 
     for (var key in internal) {
       folio = internal[key];
+      
+      // DCFS issue id
+      expect(folio.id).toBe(key);
 
       // primitives
-      expect(folio.id).toBe(key);
-      expect(typeof folio.productId).toBe('string');
-      expect(typeof folio.title).toBe('string');
       expect(typeof folio.broker).toBe('string');
-      expect(typeof folio.price).toBe('string');
       expect(typeof folio.description).toBe('string');
+      expect(typeof folio.downloadSize).toBe('number');
+      expect(typeof folio.filter).toBe('string');
       expect(typeof folio.folioDescription).toBe('string');
       expect(typeof folio.folioNumber).toBe('string');
-      expect(typeof folio.downloadSize).toBe('number');
+      expect(typeof folio.price).toBe('string');
+      expect(typeof folio.productId).toBe('string');
+      expect(typeof folio.targetDimensions).toBe('string');
+      expect(typeof folio.title).toBe('string');
       expect(folio.previewImageURL).toBe(null); // when the API starts, this attribute is always null
+      expect(folio.receipt).toBe(null);
 
       // booleans
+      expect(typeof folio.hasSections).toBe('boolean');
       expect(typeof folio.isArchivable).toBe('boolean');
       expect(typeof folio.isCompatible).toBe('boolean');
       expect(typeof folio.isDownloadable).toBe('boolean');
@@ -49,19 +55,31 @@ describe('NGPDS.imitator', function () {
       expect(typeof folio.isThirdPartyEntitled).toBe('boolean');
       expect(typeof folio.isUpdatable).toBe('boolean');
       expect(typeof folio.isViewable).toBe('boolean');
+      expect(typeof folio.supportsContentPreview).toBe('boolean');
+
+      // objects
+      expect(typeof folio.sections).toBe('object');
+      expect(typeof folio.updatedSignal).toBe('object');
+
+      // arrays
+      expect(Array.isArray(folio.currentTransactions)).toBe(true);
 
       // functions
-      expect(typeof folio.getPreviewImage).toBe('function');
-      expect(typeof folio.verifyContentPreviewSupported).toBe('function');
       expect(typeof folio.canDownloadContentPreview).toBe('function');
-      expect(typeof folio.updatedSignal).toBe('object');
+      expect(typeof folio.getPreviewImage).toBe('function');
       expect(typeof folio.updatedSignal.add).toBe('function');
+      expect(typeof folio.verifyContentPreviewSupported).toBe('function');
+
 
       // date checking
       thisDate = folio.publicationDate;
       expect(thisDate instanceof Date).toBe(true);
       expect(thisDate).not.toBe(lastDate);
       lastDate = folio.publicationDate;
+
+      // states
+      expect(typeof folio.contentPreviewState).toBe('number');
+      expect(typeof folio.state).toBe('number');
     }
   });
 
