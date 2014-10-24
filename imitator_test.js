@@ -28,7 +28,7 @@ describe('NGPDS.imitator', function () {
 
     for (var key in internal) {
       folio = internal[key];
-      
+
       // DCFS issue id
       expect(folio.id).toBe(key);
 
@@ -64,18 +64,26 @@ describe('NGPDS.imitator', function () {
       // arrays
       expect(Array.isArray(folio.currentTransactions)).toBe(true);
 
-      // functions
-      expect(typeof folio.canDownloadContentPreview).toBe('function');
-      expect(typeof folio.getPreviewImage).toBe('function');
-      expect(typeof folio.updatedSignal.add).toBe('function');
-      expect(typeof folio.verifyContentPreviewSupported).toBe('function');
-
-
       // date checking
       thisDate = folio.publicationDate;
       expect(thisDate instanceof Date).toBe(true);
       expect(thisDate).not.toBe(lastDate);
       lastDate = folio.publicationDate;
+
+      // functions
+      expect(typeof folio.archive).toBe('function');
+      expect(typeof folio.canDownloadContentPreview).toBe('function');
+      expect(typeof folio.currentStateChangingTransaction).toBe('function');
+      expect(typeof folio.download).toBe('function');
+      expect(typeof folio.downloadContentPreview).toBe('function');
+      expect(typeof folio.getPreviewImage).toBe('function');
+      expect(typeof folio.getSections).toBe('function');
+      expect(typeof folio.isFree).toBe('function');
+      expect(typeof folio.purchase).toBe('function');
+      expect(typeof folio.update).toBe('function');
+      expect(typeof folio.updatedSignal.add).toBe('function');
+      expect(typeof folio.verifyContentPreviewSupported).toBe('function');
+      expect(typeof folio.view).toBe('function');
 
       // states
       expect(typeof folio.contentPreviewState).toBe('number');
@@ -114,7 +122,7 @@ describe('NGPDS.imitator', function () {
     waitsFor(function () {
       return img.complete;
     }, 'image loading', 1000);
-    
+
 
   });
 

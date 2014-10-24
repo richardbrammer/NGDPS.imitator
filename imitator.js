@@ -16,6 +16,11 @@ adobeDPS.ngdpsImitator = {
     };
 
 
+    var _functionMissing = function () {
+      console.log('This functionality is not yet implemented into ngdps.imitator. Feel free to contribute. https://github.com/richardbrammer/ngdps.imitator');
+    };
+
+
     var getPreviewImage = function (width, height, isPortrait) {
       var imageUrl = 'http://i.imgur.com/kH14hwE.png',
         transaction;
@@ -93,6 +98,8 @@ adobeDPS.ngdpsImitator = {
 
 
     var updatedSignal = {
+      active: true,
+      memorize: true,
       add: function (callback) {
         window.setInterval((function (fn) {
           fn();
@@ -102,7 +109,15 @@ adobeDPS.ngdpsImitator = {
         window.setTimeout((function (fn) {
           fn();
         })(callback), 50000 * Math.random());
-      }
+      },
+      remove: _functionMissing,
+      removeAll: _functionMissing,
+      getNumListeners: _functionMissing,
+      halt: _functionMissing,
+      has: _functionMissing,
+      dispatch: _functionMissing,
+      forget: _functionMissing,
+      dispose: _functionMissing
     };
 
 
@@ -150,9 +165,15 @@ adobeDPS.ngdpsImitator = {
 
           // objects
           sections: {
-            addedSignal: {},
+            addedSignal: {
+              add: _functionMissing,
+              addOnce: _functionMissing
+            },
             internal: {},
-            removedSignal: {}
+            removedSignal: {
+              add: _functionMissing,
+              addOnce: _functionMissing
+            }
           },
           updatedSignal: updatedSignal,
 
@@ -163,9 +184,18 @@ adobeDPS.ngdpsImitator = {
           publicationDate: new Date(1414099620000 - (Math.random() * 10000000000)),
           
           // methods
+          archive: _functionMissing,
           canDownloadContentPreview: canDownloadContentPreview,
+          currentStateChangingTransaction: _functionMissing,
+          download: _functionMissing,
+          downloadContentPreview: _functionMissing,
           getPreviewImage: getPreviewImage,
+          getSections: _functionMissing,
+          isFree: _functionMissing,
+          purchase: _functionMissing,
+          update: _functionMissing,
           verifyContentPreviewSupported: verifyContentPreviewSupported,
+          view: _functionMissing,
           
           // states
           contentPreviewState: 0,
