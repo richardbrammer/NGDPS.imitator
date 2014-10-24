@@ -9,7 +9,7 @@ adobeDPS.ngdpsImitator = {
   imitate: function (delay) {
     'use strict';
 
-    var randomizeGuid = function (c) {
+    var _randomizeGuid = function (c) {
       var r = Math.random() * 16 | 0,
         v = c === 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
@@ -43,8 +43,9 @@ adobeDPS.ngdpsImitator = {
 
     };
 
-    if (typeof delay === 'undefined') {
-      delay = 100;
+    if (typeof delay !== 'number') {
+      delay = parseInt(delay, 10) || 100;
+      // delay = 100;
     }
 
     adobeDPS.ngdpsImitator.state = true;
@@ -52,11 +53,11 @@ adobeDPS.ngdpsImitator = {
 
     window.setTimeout(function () {
       var guid;
-      console.log('NGDPS.imitation initialized after ', delay, 'ms.');
+      console.log('NGDPS.imitation initialized after', delay, 'ms.');
       adobeDPS.initializationComplete.dispatch();
 
       for (var i = 0; i < 50; i += 1) {
-        guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, randomizeGuid);
+        guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, _randomizeGuid);
         adobeDPS.libraryService.folioMap.internal[guid] = {
           id: guid,
           productId: 'com.geildanke.ngdps.imitator.' + i,
@@ -76,14 +77,6 @@ adobeDPS.ngdpsImitator = {
 
   var urlParams;
 
-  function isImitate() {
-    if (typeof urlParams.imitate !== 'undefined') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   (function (adobeDPS) {
     var match,
       pl = /\+/g, // Regex for replacing addition symbol with a space
@@ -98,8 +91,8 @@ adobeDPS.ngdpsImitator = {
       urlParams[decode(match[1])] = decode(match[2]);
     }
 
-    if (isImitate()) {
-      adobeDPS.ngdpsImitator.imitate();
+    if (typeof urlParams.imitate !== 'undefined') {
+      adobeDPS.ngdpsImitator.imitate(urlParams.imitate);
     }
 
   })(adobeDPS);
