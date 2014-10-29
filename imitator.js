@@ -5,6 +5,10 @@ if (typeof adobeDPS === 'undefined') {
   throw new Error('AdobeLibraryAPI.js must be installed. Download from www.adobe.com/go/dps-library-store-api');
 }
 
+/**
+ * Extends an existing adobeDPS object, when the function imitate(delay) is called
+ * @type {Object}
+ */
 adobeDPS.ngdpsImitator = {
   imitate: function (delay) {
     'use strict';
@@ -17,7 +21,7 @@ adobeDPS.ngdpsImitator = {
 
 
     var _functionMissing = function () {
-      console.log('This functionality is not yet implemented into ngdps.imitator. Feel free to contribute. https://github.com/richardbrammer/ngdps.imitator');
+      console.log('This method is not yet implemented into ngdps.imitator. Feel free to contribute. https://github.com/richardbrammer/ngdps.imitator');
     };
 
 
@@ -206,7 +210,7 @@ adobeDPS.ngdpsImitator = {
   }
 };
 
-/* load with string */
+/* load with query parameter imitate string */
 (function (adobeDPS) {
   'use strict';
 
