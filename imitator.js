@@ -108,7 +108,7 @@ adobeDPS.ngdpsImitator = {
           progress: 0
         };
         window.setInterval((function (fn) {
-          transaction.progress += 0.1;
+          transaction.progress += 7;
           fn(transaction);
         })(callback), 50000 * Math.random());
       },
