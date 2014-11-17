@@ -205,6 +205,7 @@ adobeDPS.ngdpsImitator = {
           contentPreviewState: 0,
           state: 200
         };
+        adobeDPS.libraryService.folioMap.addedSignal.dispatch();
       }
     }, delay);
   }
