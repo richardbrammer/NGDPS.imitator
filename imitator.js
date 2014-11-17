@@ -100,13 +100,16 @@ adobeDPS.ngdpsImitator = {
       return true;
     };
 
-
-    var updatedSignal = {
+    var signal = {
       active: true,
       memorize: true,
       add: function (callback) {
+        var transaction = {
+          progress: 0
+        };
         window.setInterval((function (fn) {
-          fn();
+          transaction.progress += 0.1;
+          fn(transaction);
         })(callback), 50000 * Math.random());
       },
       addOnce: function (callback) {
@@ -122,6 +125,15 @@ adobeDPS.ngdpsImitator = {
       dispatch: _functionMissing,
       forget: _functionMissing,
       dispose: _functionMissing
+    };
+
+    var downloadHandler = function () {
+      return {
+        progressSignal: signal,
+        updatedSignal: signal,
+        completedSignal: null // TODO signal is missing
+      };
+
     };
 
 
@@ -179,7 +191,7 @@ adobeDPS.ngdpsImitator = {
               addOnce: _functionMissing
             }
           },
-          updatedSignal: updatedSignal,
+          updatedSignal: signal,
 
           // arrays
           currentTransactions: [],
@@ -191,7 +203,7 @@ adobeDPS.ngdpsImitator = {
           archive: _functionMissing,
           canDownloadContentPreview: canDownloadContentPreview,
           currentStateChangingTransaction: _functionMissing,
-          download: _functionMissing,
+          download: downloadHandler,
           downloadContentPreview: _functionMissing,
           getPreviewImage: getPreviewImage,
           getSections: _functionMissing,
