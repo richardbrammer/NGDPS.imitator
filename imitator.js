@@ -203,7 +203,7 @@ adobeDPS.ngdpsImitator = {
           
           // states
           contentPreviewState: 0,
-          state: 100
+          state: 200
         };
       }
     }, delay);
