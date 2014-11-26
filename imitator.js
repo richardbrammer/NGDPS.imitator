@@ -154,7 +154,7 @@ adobeDPS.ngdpsImitator = {
 
     window.setTimeout(function () {
       var guid;
-      console.log('NGDPS.imitation initialized after', delay, 'ms.');
+      console.log('NGDPS.imitation initialized (after ' + delay + ' ms). Please help to improve by contributing at https://github.com/richardbrammer/ngdps.imitator');
       adobeDPS.initializationComplete.dispatch();
 
       for (var i = 0; i < 50; i += 1) {
