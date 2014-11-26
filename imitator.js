@@ -21,7 +21,7 @@ adobeDPS.ngdpsImitator = {
 
 
     var _functionMissing = function () {
-      console.log('This method is not yet implemented into ngdps.imitator. Feel free to contribute. https://github.com/richardbrammer/ngdps.imitator');
+      console.log('Method is not yet implemented into ngdps.imitator. Feel free to contribute. https://github.com/richardbrammer/ngdps.imitator');
     };
 
 
@@ -103,10 +103,12 @@ adobeDPS.ngdpsImitator = {
     var signal = {
       active: true,
       memorize: true,
+      _bindings: [],
       add: function (callback) {
         var transaction = {
           progress: 0
         };
+        this._bindings.push(callback);
         window.setInterval((function (fn) {
           transaction.progress += 7;
           fn(transaction);
@@ -121,7 +123,13 @@ adobeDPS.ngdpsImitator = {
       removeAll: _functionMissing,
       getNumListeners: _functionMissing,
       halt: _functionMissing,
-      has: _functionMissing,
+      has: function (callback) {
+        if (this._bindings.indexOf(callback) !== -1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       dispatch: _functionMissing,
       forget: _functionMissing,
       dispose: _functionMissing
