@@ -145,12 +145,26 @@ adobeDPS.ngdpsImitator = {
     };
 
 
-    if (typeof delay !== 'number') {
-      delay = parseInt(delay, 10) || 100;
-    }
 
     adobeDPS.ngdpsImitator.state = true;
     adobeDPS.ngdpsImitator.info = 'This adobeDPS object is extended by ngdps.imitator; This info should never appear in a production environment. More information: https://github.com/richardbrammer/ngdps.imitator';
+
+
+
+    /*******************************
+     * SET FAKE configrationService
+     *******************************/
+    adobeDPS.configurationService.applicationID = 'com.geildanke.ngdps';
+    adobeDPS.configurationService.applicationVersion = '0.1.0';
+    adobeDPS.configurationService.adobeApplicationVersion = null;
+
+
+    /*********************
+     * APPEND FAKE FOLIOS
+     *********************/
+    if (typeof delay !== 'number') {
+      delay = parseInt(delay, 10) || 100;
+    }
 
     window.setTimeout(function () {
       var guid;

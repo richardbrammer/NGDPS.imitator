@@ -155,4 +155,16 @@ describe('NGPDS.imitator', function () {
 
   });
 
+  it('has a configurationService with valid data', function () {
+    expect(typeof adobeDPS.configurationService).toBe('object');
+    expect(adobeDPS.configurationService.adobeApplicationVersion).toBe(null);
+    expect(adobeDPS.configurationService.applicationContext).toBe(null);
+    expect(typeof adobeDPS.configurationService.applicationContextUpdatedSignal).toBe('object');
+    expect(typeof adobeDPS.configurationService.applicationID).toBe('string');
+    expect(typeof adobeDPS.configurationService.applicationStateTypes).toBe('object');
+    expect(typeof adobeDPS.configurationService.applicationStates).toBe('object');
+    expect(typeof adobeDPS.configurationService.applicationVersion).toBe('string');
+    expect(typeof adobeDPS.configurationService.callbacks).toBe('object');
+  });
+
 });
