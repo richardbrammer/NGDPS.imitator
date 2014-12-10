@@ -109,10 +109,21 @@ adobeDPS.ngdpsImitator = {
           progress: 0
         };
         this._bindings.push(callback);
-        window.setInterval((function (fn) {
-          transaction.progress += 7;
-          fn(transaction);
-        })(callback), 50000 * Math.random());
+        window.setInterval((function (fn, transaction, folio) {
+          return function () {
+            transaction.progress += 7;
+            if (transaction.progress > 10) {
+              folio.isViewable = true;
+            }
+            if (transaction.progress > 100) {
+              folio.state = 1000;
+              transaction.progress = 100;
+              folio.completedSignal.dispatch();
+            }
+            folio.updatedSignal.dispatch();
+            fn(transaction);
+          };
+        })(callback, transaction, this.parentFolio), 50000 * Math.random());
       },
       addOnce: function (callback) {
         window.setTimeout((function (fn) {
@@ -136,6 +147,9 @@ adobeDPS.ngdpsImitator = {
     };
 
     var downloadHandler = function () {
+      signal.parentFolio = this;
+      this.state = 1000;
+
       return {
         progressSignal: signal,
         updatedSignal: signal,
