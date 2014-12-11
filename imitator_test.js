@@ -141,17 +141,8 @@ describe('NGPDS.imitator', function () {
       folioId = key;
       break;
     }
-
-    waitsFor(function () {
-      var fired = false;
-
-      adobeDPS.libraryService.folioMap.internal[folioId].updatedSignal.add(function () {
-        fired = true;
-      });
-
-      return fired;
-    }, 'the callback to be fired.', 10000);
-
+    
+    expect (typeof adobeDPS.libraryService.folioMap.internal[folioId].updatedSignal).not.toBe('undefined');
 
   });
 

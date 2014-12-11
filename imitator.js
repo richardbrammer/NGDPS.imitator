@@ -109,21 +109,22 @@ adobeDPS.ngdpsImitator = {
           progress: 0
         };
         this._bindings.push(callback);
-        window.setInterval((function (fn, transaction, folio) {
-          return function () {
-            transaction.progress += 7;
-            if (transaction.progress > 10) {
-              folio.isViewable = true;
-            }
-            if (transaction.progress > 100) {
-              folio.state = 1000;
-              transaction.progress = 100;
-              folio.completedSignal.dispatch();
-            }
-            folio.updatedSignal.dispatch();
-            fn(transaction);
-          };
-        })(callback, transaction, this.parentFolio), 50000 * Math.random());
+        if (this.parentFolio) {
+          window.setInterval((function (fn, transaction, folio) {
+            return function () {
+              transaction.progress += 7;
+              if (transaction.progress > 10) {
+                folio.isViewable = true;
+              }
+              if (transaction.progress > 100) {
+                folio.state = 1000;
+                transaction.progress = 100;
+              }
+              folio.updatedSignal.dispatch();
+              fn(transaction);
+            };
+          })(callback, transaction, this.parentFolio), 50000 * Math.random());
+        }
       },
       addOnce: function (callback) {
         window.setTimeout((function (fn) {
@@ -141,7 +142,7 @@ adobeDPS.ngdpsImitator = {
           return false;
         }
       },
-      dispatch: _functionMissing,
+      dispatch: function () {},
       forget: _functionMissing,
       dispose: _functionMissing
     };
@@ -153,7 +154,7 @@ adobeDPS.ngdpsImitator = {
       return {
         progressSignal: signal,
         updatedSignal: signal,
-        completedSignal: null // TODO signal is missing
+        completedSignal: { dispatch: function () {}} // TODO signal is missing
       };
 
     };
